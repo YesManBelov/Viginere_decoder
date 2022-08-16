@@ -87,5 +87,4 @@ def main(data: Dict[str, str]):
 
 if __name__ == '__main__':
     data_dict = get_data('data/data.txt')
-    print(data_dict)
     main(data_dict)

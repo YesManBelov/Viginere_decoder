@@ -2,8 +2,7 @@
 	alfha version
 
 '''
-import constants as cn, time
-
+import constants as cn
 def text_correct(text, mnim_long):
 	new_out = []
 	new_out = [text[i] for i in range(len(text)) if i% mnim_long == 0]
@@ -305,14 +304,14 @@ def main():
 
 
 
-def durackiy_search(list, item):
-    if item in list:
-        return list.index(item)
+# def durackiy_search(list, item):
+#     if item in list:
+#         return list.index(item)
 
-text_file = open("slovarik.txt", 'r', encoding= 'utf-8')
-slovar = text_file.readlines()
-text_file.close()
-slovar = list(map(str.strip,slovar))
+# text_file = open("slovarik.txt", 'r', encoding= 'utf-8')
+# slovar = text_file.readlines()
+# text_file.close()
+# slovar = list(map(str.strip,slovar))
 # start = time.time()
 # print(durackiy_search(t, 'слон'))
 # end = time.time()
@@ -320,6 +319,6 @@ slovar = list(map(str.strip,slovar))
 # print(binary_search(t, 'слон'))
 # lastend = time.time()
 # print(lastend - end, 'seconds')
-main()
+# main()
 
-input("")
+# input("")
