@@ -85,6 +85,7 @@ def main(data: Dict[str, str]):
     print(main_cipher == data['cipher'])
 
 
+DATA_DICT = get_data('data/data.txt')
+
 if __name__ == '__main__':
-    data_dict = get_data('data/data.txt')
-    main(data_dict)
+    main(DATA_DICT)
