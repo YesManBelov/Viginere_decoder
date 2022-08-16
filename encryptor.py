@@ -1,4 +1,4 @@
-from typing import Dict, List, Tuple
+from typing import Dict, List, Tuple, Union, Any
 
 
 def get_text_on_file(text_file: str) -> List:
@@ -36,7 +36,9 @@ def get_alph(number: int) -> str:
     return text_lines[number].replace('\n', '')
 
 
-def conv_text(text: str, alphavit: str, options: str = 'to_int') -> List[int]:
+def conv_text(text: Union[str, List],
+              alphavit: str,
+              options: str = 'to_int') -> List[Any]:
     '''Преобразователь текста в список индексов по алфавиту или наоборот'''
     if options == 'to_int':
         con_func = alphavit.index
@@ -54,19 +56,30 @@ def get_cipher(text: str, code: str, alph: str) -> str:
     ''' Доработать (не будет работать с кодовым словом большим текста'''
     number_text = conv_text(text, alph)
     number_code = conv_text(code, alph)
-    difference = len(number_text) // len(number_code)
-    difference_mod = len(number_text) % len(number_code)
-    redactor_number_code = (number_code * difference)
-    redactor_number_code.extend(number_code[:difference_mod])
-    itog = [(x+y) % 32 for x, y in zip(redactor_number_code, number_text)]
+    # найдем, что меньше:
+    if number_text >= number_code:
+        difference = len(number_text) // len(number_code)
+        difference_mod = len(number_text) % len(number_code)
+        r_number_code = (number_code * difference)
+        r_number_code.extend(number_code[:difference_mod])
+        r_number_text = number_text
+    else:
+        difference = len(number_code) // len(number_text)
+        difference_mod = len(number_code) % len(number_text)
+        r_number_text = (number_text * difference)
+        r_number_text.extend(number_text[:difference_mod])
+        r_number_code = number_code
+    itog = [(x+y) % len(alph) for x, y in zip(r_number_code, r_number_text)]
     list_itog = conv_text(itog, alph, 'to_str')
+    print(list_itog)
+    print(type(list_itog[0]))
     return ''.join(list_itog)
 
 
 def main(data: Dict[str, str]):
     '''Главная функция'''
-    # alph_number = get_answer('Без "Ё" - 0\nС "Ё" -   1\n: ', ('0', '1'))
-    alph = get_alph(int(0))
+    alph_number = get_answer('Без "Ё" - 0\nС "Ё" -   1\n: ', ('0', '1'))
+    alph = get_alph(int(alph_number))
     main_cipher = get_cipher(data['text'], data['code_word'], alph)
     print('Check: ')
     print(main_cipher == data['cipher'])
