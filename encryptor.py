@@ -2,12 +2,14 @@ from typing import Dict, List, Tuple
 
 
 def get_text_on_file(text_file: str) -> List:
+    '''Получение текста из файла'''
     with open(text_file, 'r', encoding='utf8') as f:
         text_lines = f.readlines()
     return text_lines
 
 
 def get_data(text_file: str) -> Dict[str, str]:
+    '''Получение данных (текст, кодовое слово, зашифрованный текст)'''
     text_lines = get_text_on_file(text_file)
     text_lines = list(map(lambda s: s.replace('\n', '').strip().lower(),
                           text_lines,
@@ -21,6 +23,7 @@ def get_data(text_file: str) -> Dict[str, str]:
 
 
 def get_answer(question: str, choice: Tuple[str, ...]) -> str:
+    '''Получение ответа'''
     answer = input(question)
     while answer not in choice:
         answer = input(question)
@@ -28,11 +31,13 @@ def get_answer(question: str, choice: Tuple[str, ...]) -> str:
 
 
 def get_alph(number: int) -> str:
+    '''Загрузка алфавита'''
     text_lines = get_text_on_file('data/alphavit.txt')
     return text_lines[number].replace('\n', '')
 
 
 def conv_text(text: str, alphavit: str, options: str = 'to_int') -> List[int]:
+    '''Преобразователь текста в список индексов по алфавиту или наоборот'''
     if options == 'to_int':
         con_func = alphavit.index
     elif options == 'to_str':
@@ -56,9 +61,10 @@ def get_cipher(text: str, code: str, alph: str) -> str:
     itog = [(x+y) % 32 for x, y in zip(redactor_number_code, number_text)]
     list_itog = conv_text(itog, alph, 'to_str')
     return ''.join(list_itog)
-    
+
 
 def main(data: Dict[str, str]):
+    '''Главная функция'''
     # alph_number = get_answer('Без "Ё" - 0\nС "Ё" -   1\n: ', ('0', '1'))
     alph = get_alph(int(0))
     main_cipher = get_cipher(data['text'], data['code_word'], alph)
